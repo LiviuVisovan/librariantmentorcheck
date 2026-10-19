@@ -1,0 +1,6 @@
+.parent {
+  background-color: rgba(205, 237, 237, 0.566);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
