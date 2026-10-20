@@ -1,6 +1,14 @@
 import "./Card.css";
 
-export default function Card({ name, date, time, numbers, status }) {
+type CardProps = {
+  name: string;
+  date: string;
+  time: string;
+  numbers: number;
+  status: "pending" | "cancelled" | "confirmed";
+};
+
+export default function Card({ name, date, time, numbers, status }: CardProps) {
   return (
     <>
       <div className="card">

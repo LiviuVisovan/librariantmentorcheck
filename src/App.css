@@ -4,3 +4,8 @@
   flex-direction: column;
   align-items: center;
 }
+.list {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import data from "./data/reservations.json";
 import LeForm from "./LeForm";
 import Card from "./Card";
 import "./App.css";
 
-type reservation = {
+export type reservation = {
   id: number;
   customerName: string;
   date: string;
@@ -14,33 +13,35 @@ type reservation = {
 };
 
 export default function App() {
-  const [reservations, setReservations] = useState<reservation[]>(data);
+  const [reservations, setReservations] = useState<reservation[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [handle, setHandle] = useState("loading");
 
   useEffect(() => {
-    async function getfakedata() {
+    async function getdata() {
       try {
-        const response = await fetch(
-          "forgothowurllook.com/apicall/chatgptisthequeen",
-        );
-        const data: reservation = response.json();
+        const response = await fetch("/reservations.json");
+
+        if (!response.ok) {
+          setHandle(`error with request something  `);
+          return;
+        }
+        const data: reservation[] = await response.json();
+        console.log(data);
+
         setHandle("");
+        setReservations(data);
       } catch (error) {
-        setHandle(`error: ${error} do something  `);
+        console.log(error);
       }
-      setReservations(reservations);
     }
-    getfakedata();
+    getdata();
   }, []);
 
   function handleNewReserv(obj) {
     console.log(obj);
-    setReservations([
-      ...reservations,
-      { ...obj, status: "pending", id: reservations.length + 1 },
-    ]);
+    setReservations([...reservations, obj]);
   }
 
   return (
@@ -54,44 +55,50 @@ export default function App() {
       <label>Search</label>
       <input value={search} onChange={(e) => setSearch(e.target.value)}></input>
       <div>{search}</div>
-      {handle
-        ? handle
-        : reservations
-            .filter((x) => x.customerName.toLowerCase().includes(search))
-            .filter((x) => filter === "all" || x.status === filter)
-            .map((x) => (
-              <div className={x.customerName}>
-                <Card
-                  name={x.customerName}
-                  date={x.date}
-                  time={x.time}
-                  numbers={x.guests}
-                  status={x.status}
-                ></Card>
-                <button
-                  onClick={() =>
-                    setReservations(
-                      reservations.map((f) =>
-                        f !== x ? f : { ...x, status: "confirmed" },
-                      ),
-                    )
-                  }
-                >
-                  confirm
-                </button>
-                <button
-                  onClick={() =>
-                    setReservations(
-                      reservations.map((f) =>
-                        f !== x ? f : { ...x, status: "cancelled" },
-                      ),
-                    )
-                  }
-                >
-                  cancel
-                </button>
-              </div>
-            ))}
+      <div className="list">
+        {handle
+          ? handle
+          : reservations
+              .filter((x) =>
+                x.customerName.trim().toLowerCase().includes(search),
+              )
+              .filter((x) => filter === "all" || x.status === filter)
+              .map((x) => (
+                <div className={x.customerName}>
+                  <Card
+                    key={x.id}
+                    name={x.customerName}
+                    date={x.date}
+                    time={x.time}
+                    numbers={x.guests}
+                    status={x.status}
+                  ></Card>
+                  <button
+                    onClick={() =>
+                      setReservations(
+                        reservations.map((f) =>
+                          f !== x ? f : { ...x, status: "confirmed" },
+                        ),
+                      )
+                    }
+                  >
+                    confirm
+                  </button>
+                  <button
+                    onClick={() =>
+                      setReservations(
+                        reservations.map((f) =>
+                          f !== x ? f : { ...x, status: "cancelled" },
+                        ),
+                      )
+                    }
+                  >
+                    cancel
+                  </button>
+                </div>
+              ))}
+      </div>
+
       <LeForm func={handleNewReserv}></LeForm>
     </div>
   );
