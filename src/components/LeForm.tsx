@@ -11,7 +11,7 @@ export default function LeForm({ func }: FormProps) {
   const [time, setTime] = useState("");
   const [numbers, setNumbers] = useState(0);
 
-  const newObj = {
+  const newObj: reservation = {
     id: self.crypto.randomUUID(),
     customerName: name,
     date: date,
@@ -23,7 +23,7 @@ export default function LeForm({ func }: FormProps) {
   const today = Date.now();
   const trans = new Date(date);
 
-  function handleSubmit(e: SubmitEvent<ReactHTMLElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (numbers >= 0 && Number(today) < Number(trans)) func(newObj);
   }
