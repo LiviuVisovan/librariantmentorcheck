@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import LeForm from "./LeForm";
-import Card from "./Card";
+import LeForm from "./components/LeForm";
+import Card from "./components/Card";
 import "./App.css";
 
 export type reservation = {

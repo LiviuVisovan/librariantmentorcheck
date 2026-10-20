@@ -1,5 +1,5 @@
 import { useState, type ReactHTMLElement } from "react";
-import { type reservation } from "./App";
+import { type reservation } from "../App";
 
 type FormProps = {
   func: (obj: reservation) => void;
