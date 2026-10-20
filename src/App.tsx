@@ -4,12 +4,12 @@ import Card from "./components/Card";
 import "./App.css";
 
 export type reservation = {
-  id: number;
+  id: string;
   customerName: string;
   date: string;
   time: string;
   guests: number;
-  status: string;
+  status: "pending" | "cancelled" | "confirmed";
 };
 
 export default function App() {
@@ -34,14 +34,15 @@ export default function App() {
         setReservations(data);
       } catch (error) {
         console.log(error);
+        setHandle("error");
       }
     }
     getdata();
   }, []);
 
-  function handleNewReserv(obj) {
+  function handleNewReserv(obj: reservation) {
     console.log(obj);
-    setReservations([...reservations, obj]);
+    setReservations((prev) => [...prev, obj]);
   }
 
   return (
@@ -60,13 +61,15 @@ export default function App() {
           ? handle
           : reservations
               .filter((x) =>
-                x.customerName.trim().toLowerCase().includes(search),
+                x.customerName
+                  .trim()
+                  .toLowerCase()
+                  .includes(search.trim().toLowerCase()),
               )
               .filter((x) => filter === "all" || x.status === filter)
               .map((x) => (
-                <div className={x.customerName}>
+                <div key={x.id}>
                   <Card
-                    key={x.id}
                     name={x.customerName}
                     date={x.date}
                     time={x.time}

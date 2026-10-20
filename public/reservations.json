@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "customerName": "Alice Johnson",
     "date": "2026-11-12",
     "time": "19:00",
@@ -8,7 +8,7 @@
     "status": "confirmed"
   },
   {
-    "id": 2,
+    "id": "2",
     "customerName": "Bob Smith",
     "date": "2026-11-12",
     "time": "20:30",
@@ -16,7 +16,7 @@
     "status": "pending"
   },
   {
-    "id": 3,
+    "id": "3",
     "customerName": "Charlie Brown",
     "date": "2026-11-13",
     "time": "18:00",
@@ -24,7 +24,7 @@
     "status": "cancelled"
   },
   {
-    "id": 4,
+    "id": "4",
     "customerName": "Diana Wilson",
     "date": "2026-11-14",
     "time": "19:30",
